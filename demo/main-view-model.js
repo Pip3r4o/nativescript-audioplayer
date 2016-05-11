@@ -12,9 +12,10 @@ function createViewModel() {
     var viewModel = new Observable();
     viewModel.counter = 42;
     viewModel.message = getMessage(viewModel.counter);
-
+        
+    var audio = require("~/nativescript-audioplayer/audioplayer").Audio;
+        
     viewModel.onTap = function () {
-        var audio = require("~/nativescript-audioplayer/audioplayer").Audio;
         audio.pickFromDevice().then(function(res) {
             audio.Player.play(res);
         });

@@ -4,23 +4,35 @@ var AudioPlayer = (function () {
     var Player = (function () {
         function Player() {
             this.player = new AVAudioPlayer();
+            this.isPlaying = false;
         }
         Player.prototype.play = function (resourceUrl) {
-            if(!types.isString(resourceUrl)) {
-                resourceUrl = NSURL.fileURLWithPath(resourceUrl);    
+            var path = resourceUrl;
+            if(types.isString(resourceUrl)) {
+                path = NSURL.fileURLWithPath(resourceUrl);    
             }
             
-            this.player.initWithContentsOfURLError(resourceUrl);
+            if(this.isPlaying) {
+                this.player.stop();
+                this.player.currentTime = 0;
+            }
+            
+            this.player.initWithContentsOfURLError(path);
+            
             this.player.prepareToPlay();
             this.player.play();
+            
+            this.isPlaying = true;
         };
         Player.prototype.stop = function () {
             this.player.stop();
+            this.isPlaying = false;
         };
         Player.prototype.reset = function () {
             this.player.stop();
             this.player.prepareToPlay();
             this.player.currentTime = 0;
+            this.player.play();
         };
         return Player;
     })();
