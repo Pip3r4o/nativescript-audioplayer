@@ -19,7 +19,11 @@ function createViewModel() {
         audio.pickFromDevice().then(function(res) {
             audio.Player.play(res);
         });
+
+	// audio.Player.play(res); //on android run like this
     }
+
+
 
     //     videorecorder.record(options)
     //         .then((data) => {
