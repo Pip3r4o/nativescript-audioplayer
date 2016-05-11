@@ -1,0 +1,27 @@
+{
+	"name": "nativescript-audioplayer",
+	"version": "1.0.0",
+	"description": "Plays audio from the device music library as well as the assets provided in the application package ",
+	"main": "audioplayer.js",
+	"nativescript": {
+		"platforms": {
+			"ios": "2.0.0",
+			"android": "2.0.0"
+		},
+		"tns-ios": {
+			"version": "2.0.0"
+		}
+	},
+	"keywords": [
+		"audio",
+		"soundpicker",
+		"audiopicker",
+		"nativescript",
+		"sound",
+		"music",
+		"player",
+		"audioplayer",
+		"musicplayer"
+	],
+	"license": "MIT"
+}
