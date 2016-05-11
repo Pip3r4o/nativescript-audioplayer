@@ -2,33 +2,27 @@ var AudioPlayer = (function () {
     var Player = (function () {
         
         function Player() {
-            this.player =  android.media.MediaPlayer();
+            // this.player =  android.media.MediaPlayer();
+            // or something
         }
-        //                                org.nativescript.soundApp.R.raw.gg
-        Player.prototype.play = function (resourceUrl) {
+        //                                
+        Player.prototype.play = function (resourceUrl/*doesnt do anything right now*/) {
             var app = require("application");
             var context = app.android.context;
-            this.player.create(context, resourceUrl);
-            // var mp = android.media.MediaPlayer.create(context, resourceUrl);
+            var mp = android.media.MediaPlayer.create(context, org.nativescript.soundApp.R.raw.gg);
             try {
-                this.player.prepare();
+                mp.prepare();
             } catch (e) {
                 console.log("err on mp.prepare: " + e);
             }
 
-            this.player.start();
-            // this.player.prepareToPlay();
-            // this.player.play();
+            mp.start();
         };
         Player.prototype.stop = function () {
-            // this.player.stop();
             console.log("in stop");
         };
         Player.prototype.reset = function () {
             console.log("in reset");
-            // this.player.stop();
-            // this.player.prepareToPlay();
-            // this.player.currentTime = 0;
         };
         return Player;
     })();
