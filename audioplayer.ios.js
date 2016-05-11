@@ -1,9 +1,15 @@
 var AudioPlayer = (function () {
+    var types = require("utils/types");
+
     var Player = (function () {
         function Player() {
             this.player = new AVAudioPlayer();
         }
         Player.prototype.play = function (resourceUrl) {
+            if(!types.isString(resourceUrl)) {
+                resourceUrl = NSURL.fileURLWithPath(resourceUrl);    
+            }
+            
             this.player.initWithContentsOfURLError(resourceUrl);
             this.player.prepareToPlay();
             this.player.play();
@@ -20,11 +26,11 @@ var AudioPlayer = (function () {
     })();
 
     var player = new Player();
-    
+
+    // returns resource relative Url
     function pick(relativeURL) {
         return new Promise(function (resolve, reject) {
             var fs = require("file-system");
-            var types = require("utils/types");
 
             var path = types.isString(source) ? source.trim() : "";
 
@@ -41,6 +47,7 @@ var AudioPlayer = (function () {
         });
     };
 
+    // returns NSURL object
     function pickFromDevice() {
         return new Promise(function (resolve, reject) {
             var mpMediaPickerController = MPMediaPickerController.alloc().initWithMediaTypes(MPMediaTypeAnyAudio);
