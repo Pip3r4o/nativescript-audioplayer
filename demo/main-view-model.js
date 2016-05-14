@@ -12,27 +12,22 @@ function createViewModel() {
     var viewModel = new Observable();
     viewModel.counter = 42;
     viewModel.message = getMessage(viewModel.counter);
-        
-    var audio = require("~/nativescript-audioplayer/audioplayer").Audio;
-        
+
+    var Audio = require("~/nativescript-audioplayer/audioplayer").Audio;
+    var songPlayer = Audio.getPlayer();
+    var songPlayer2 = Audio.getPlayer();
+
     viewModel.onTap = function () {
-        audio.pickFromDevice().then(function(res) {
-            audio.Player.play(res);
+        Audio.pickFromDevice().then(function(res) {
+            songPlayer2.playLooped(res, 0);
         });
-
-	// audio.Player.play(res); //on android run like this
+        Audio.pick("~/demo/App_Resources/Android/raw/gg.mp3").then(function (res) {
+            songPlayer.play(res);
+        },
+        function (err) {
+            console.log(err);    
+        });
     }
-
-
-
-    //     videorecorder.record(options)
-    //         .then((data) => {
-    //             console.log("in videorecorder.record callback");
-    //              args.view = data;
-    //         })
-    //         .catch((err) =>
-    //         { console.log(err) })
-    // }
 
     return viewModel;
 }

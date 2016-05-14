@@ -8,26 +8,35 @@ var AudioPlayer = (function () {
         }
         Player.prototype.play = function (resourceUrl) {
             var path = resourceUrl;
-            if(types.isString(resourceUrl)) {
-                path = NSURL.fileURLWithPath(resourceUrl);    
+            if (types.isString(resourceUrl)) {
+                path = NSURL.fileURLWithPath(resourceUrl);
             }
-            
-            if(this.isPlaying) {
+            console.log("INSIDE PLAY OF A PLAYER!");
+            if (this.isPlaying) {
                 this.player.stop();
                 this.player.currentTime = 0;
             }
-            
+
             this.player.initWithContentsOfURLError(path);
-            
+
             this.player.prepareToPlay();
             this.player.play();
-            
+
             this.isPlaying = true;
         };
+        
+        Player.prototype.playLooped = function (resourceUrl, numberOfLoops) {
+            numberOfLoops = numberOfLoops || 999;
+            console.log("INSIDE PLAYLOOPED OF A PLAYER");
+            this.play(resourceUrl);
+            this.player.numberOfLoops(numberOfLoops);    
+        };
+        
         Player.prototype.stop = function () {
             this.player.stop();
             this.isPlaying = false;
         };
+        
         Player.prototype.reset = function () {
             this.player.stop();
             this.player.prepareToPlay();
@@ -37,14 +46,16 @@ var AudioPlayer = (function () {
         return Player;
     })();
 
-    var player = new Player();
+    function getPlayer() {
+        return new Player();
+    }
 
     // returns resource relative Url
     function pick(relativeURL) {
         return new Promise(function (resolve, reject) {
             var fs = require("file-system");
 
-            var path = types.isString(source) ? source.trim() : "";
+            var path = types.isString(relativeURL) ? relativeURL.trim() : "";
 
             if (path.indexOf("~/") === 0) {
                 path = fs.path.join(fs.knownFolders.currentApp().path, path.replace("~/", ""));
@@ -113,7 +124,7 @@ var AudioPlayer = (function () {
     } (NSObject));
 
     return {
-        Player: player,
+        getPlayer: getPlayer,
         pick: pick,
         pickFromDevice: pickFromDevice
     };
